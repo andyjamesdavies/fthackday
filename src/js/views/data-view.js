@@ -15,7 +15,7 @@ define([
 		return Backbone.View.extend({
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'articleFetchCallback', 'checkIsLoaded');
+				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'articleFetchCallback', 'checkPagesLoaded');
 				
 				this.render();
 			},
@@ -26,7 +26,7 @@ define([
 				
 				this.pagesLoaded = [];
 				_.each(this.pagesCollection.models, this.getPageAt);
-				this.checkIsLoaded();
+				this.checkPagesLoaded();
 			},
 			getPagesList: function () {
 				var data = $.parseJSON(PagesStr);
@@ -39,11 +39,9 @@ define([
 				}
 				
 				if (USE_STUB) {
-					
 					var pageArticles = $.parseJSON(pageArticlesStr);
 					page.set({ 'pageItems': pageArticles.pageItems });
 					this.pageFetchCallback(page);
-					
 				} else {					
 					this.pages[n] = page.fetch({
 						success: this.pageFetchCallback
@@ -57,7 +55,6 @@ define([
 			getArticleContent: function(page, n) {
 				if (USE_STUB) {
 					var article = $.parseJSON(ArticleStr);
-					
 					page.getArticleAt(n).add(article);
 					this.articleFetchCallback();
 				} else {
@@ -67,9 +64,9 @@ define([
 				}
 			},
 			articleFetchCallback: function(article) {
-				article.set({ loaded: true });
+				
 			},
-			checkIsLoaded: function() {
+			checkPagesLoaded: function() {
 				var isLoaded = false;
 				while (!isLoaded) {
 					console.log('pending');
