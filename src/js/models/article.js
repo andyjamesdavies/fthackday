@@ -9,7 +9,7 @@ define([
 		return Backbone.Model.extend({
 			idAttribute: 'modelId',
 			initialize : function() {
-//				this.url = this.get('links')[0].href + '/main-content?apiKey=' + API_KEY;	
+				this.url = this.get('links')[0].href + '?apiKey=' + API_KEY;	
 			}
 		});
 	}

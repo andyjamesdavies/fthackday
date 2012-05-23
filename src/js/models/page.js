@@ -19,7 +19,9 @@ define([
 					var articlesCollection = new ArticlesCollection(pageItems);
 					this.set({pageArticles: articlesCollection });
 				}
-				
+			},
+			getArticleAt: function (n) {
+				return this.get('pageArticles').at(n);
 			}
 		});
 	}

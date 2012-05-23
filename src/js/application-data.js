@@ -7,8 +7,12 @@ define([
 		return {
 			initialize : function() {
 
+				var events = {};
+				_.extend(events, Backbone.Events);
+				
 				var app = new MainView({
-					el : document.getElementById('content')
+					el : document.getElementById('content'),
+					events: events
 				});
 			}
 		};
