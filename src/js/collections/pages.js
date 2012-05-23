@@ -1,13 +1,15 @@
 define([
+        'jqueryLoader',
 		'underscore',
-		'backbone'
+		'backbone',
+		'models/page'
 	],
-	function(_, Backbone) {
+	function($, _, Backbone, PageModel) {
 		"use strict";
 		
 		return Backbone.Collection.extend({
+			model: PageModel,
 			initialize : function() {
-				
 			}
 		});
 	}

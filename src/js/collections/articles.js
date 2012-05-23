@@ -1,12 +1,13 @@
 define([
 		'underscore',
-		'backbone'
+		'backbone',
+		'models/article'
 	],
-	function(_, Backbone) {
+	function(_, Backbone, ArticleModel) {
 		"use strict";
 		
 		return Backbone.Collection.extend({
-			url: '/src/stubdata/pages.json',
+			model: ArticleModel,
 			initialize : function() {
 				
 			}
