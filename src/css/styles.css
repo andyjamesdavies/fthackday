@@ -1,3 +1,7 @@
+
+@import url(base.css);
+@import url(article.css);  
+
 #vis {
 	clear: all;
 	margin-bottom: 20px;
@@ -80,6 +84,3 @@ th.h7, th.h8, th.h9, th.h10, th.h11, th.h12, th.h13, th.h14, th.h15, th.h16, th.
 	border-radius: 4px;
 	border: 1px solid white;
 }
-
-@import url(base.css);
-@import url(article.css);

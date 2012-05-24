@@ -11,13 +11,17 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'closeOverlay');
+				_.bindAll(this, 'render', 'getHeadlineCallback', 'closeOverlay', 'openOverlay');
 				
 				this.$el = $(this.el);
 				this.render();
 			},
 			render : function() {
-				this.$template = $(this.template({ headline: this.options.article.get('title').title }));
+				this.getHeadlineCallback(this.options.article);
+				return this;
+			},
+			getHeadlineCallback: function (articleModel) {
+				this.$template = $(this.template({ headline: articleModel.get('title').title }));
 				
 				this.$el.html(this.$template);
 				
@@ -28,11 +32,16 @@ define([
 					that.$el.empty();
 					that.closeOverlay();
 				});
-				return this;
 			},
 			closeOverlay: function () {
-				$('body').find('#overlay').hide();
-				$('body').find('#headline').hide();
+				$('body').find('#overlay').addClass('hidden');
+				$('body').find('#headline').addClass('hidden');
+			},
+			openOverlay: function (articleModel) {
+				this.getHeadlineCallback(articleModel);
+				
+				$('body').find('#overlay').removeClass('hidden');
+				$('body').find('#headline').removeClass('hidden');
 			}
 		});
 	}

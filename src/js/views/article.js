@@ -11,37 +11,42 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
-				_.bindAll(this, 'render');
+				_.bindAll(this, 'render', 'getArticleCallback');
 				
 				this.$el = $(this.el);
 				this.render();
 			},
-			
 			render : function() {
-				
-				var that = this;
-				this.options.article.getContent(function (pageArticle) {
-					
-					that.$template = $(that.template({
-						headline: pageArticle.get('title').title,
-						byline: pageArticle.get('editorial').byline,
-						body: pageArticle.get('item').body.body
-					}));
-					
-					that.$el.html(that.$template);
-					var closeButton = that.$el.find('.close');
-					
-					closeButton.bind('click', function (e) {
-						e.preventDefault();
-						that.$el.empty();
-						that.closeOverlay();
-					});
-				});
+				this.options.article.getContent(this.getArticleCallback);
 				return this;
 			},
+			getArticleCallback: function (pageArticle) {
+
+				this.$template = $(this.template({
+					headline: pageArticle.get('title').title,
+					byline: pageArticle.get('editorial').byline,
+					body: pageArticle.get('item').body.body
+				}));
+
+				this.$el.html(this.$template);
+				var closeButton = this.$el.find('.close');
+
+				var that = this;
+				closeButton.bind('click', function (e) {
+					e.preventDefault();
+					that.$el.empty();
+					that.closeOverlay();
+				});
+			},
 			closeOverlay: function () {
-				$('body').find('#overlay').hide();
-				$('body').find('#article').hide();
+				$('body').find('#overlay').addClass('hidden');
+				$('body').find('#article').addClass('hidden');
+			},
+			openOverlay: function (articleModel) {
+				articleModel.getContent(this.getArticleCallback);
+				
+				$('body').find('#overlay').removeClass('hidden');
+				$('body').find('#article').removeClass('hidden');
 			}
 		});
 	}

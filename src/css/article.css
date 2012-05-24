@@ -14,8 +14,21 @@
 	display:none;
 }
 
+#overlay.hidden {
+	display:none;
+}
+
+#article.hidden {
+	display:none;
+}
+
+#headline.hidden {
+	display:none;
+}
+
 #article,
 #headline {
+	display:block;
 	z-index:100;
 	background:#FFF1E0;
 	position:absolute;
