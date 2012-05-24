@@ -11,7 +11,7 @@ define([
 	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr, SquareView) {
 		"use strict";
 
-		var USE_STUB = true;
+		var USE_STUB = false;
 		
 		return Backbone.View.extend({
 			
@@ -131,7 +131,7 @@ define([
 				this.drawTiles();
 				this.colourTiles();
 				
-				setTimeout(function() { that.renderGrid() }, 5000);
+				setTimeout(function() { that.renderGrid() }, 40000);
 			},
 			drawTiles : function() {
 				this.$el.empty();

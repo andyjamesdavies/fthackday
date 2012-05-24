@@ -43,10 +43,10 @@ define([
 				
 				var that = this;
 				
-				$('body').find('#showArticle').bind('click', function(e) {
-					e.preventDefault();
-					window.ARTICLE.openOverlay(that.tmpArticle);
-				});
+//				$('body').find('#showArticle').bind('click', function(e) {
+//					e.preventDefault();
+//					window.ARTICLE.openOverlay(that.tmpArticle);
+//				});
 			},
 			renderHeadline: function () {
 				if (this.tmpArticle === undefined) {
@@ -61,10 +61,10 @@ define([
 				});	
 				
 				var that = this;
-				$('body').find('#showHeadline').bind('click', function(e) {
-					e.preventDefault();
-					window.HEADLINE.openOverlay(that.tmpArticle);
-				});
+//				$('body').find('#showHeadline').bind('click', function(e) {
+//					e.preventDefault();
+//					window.HEADLINE.openOverlay(that.tmpArticle);
+//				});
 			},
 			setHeight: function () {
 				$('body').height($(window).innerHeight());
