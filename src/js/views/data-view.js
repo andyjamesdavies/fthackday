@@ -11,7 +11,7 @@ define([
 	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr, SquareView) {
 		"use strict";
 
-		var USE_STUB = false;
+		var USE_STUB = true;
 		
 		return Backbone.View.extend({
 			
@@ -116,12 +116,12 @@ define([
 				});
 				
 				// how many article do we have?
-				console.log(this.allArticles.length);
+//				console.log(this.allArticles.length);
 				
 				// what subject is each article?
-				_.each(this.allArticles, function(article){
-					console.log(article.get('metadata').primarySection.term.name);
-				});
+//				_.each(this.allArticles, function(article){
+//					console.log(article.get('metadata').primarySection.term.name);
+//				});
 				this.renderGrid();
 			},
 			renderGrid : function(){
@@ -145,6 +145,7 @@ define([
 					html.append(tr);
 				};
 				this.$el.append(html);
+				window.APP_EVENTS.trigger('tilesBuilt');
 			},
 			colourTiles : function() {
 				
