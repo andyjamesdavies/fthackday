@@ -1,0 +1,44 @@
+
+#overlay {
+	position:absolute;
+	top:0;
+	left:0;
+	height:100%;
+	width:100%;
+	background:#000;
+	opacity:0.5;
+	z-index:90;
+}
+
+#headline {
+	display:none;
+}
+
+#article,
+#headline {
+	z-index:100;
+	background:#FFF1E0;
+	position:absolute;
+	left:0;
+	margin:10% 10% 10% 10%;
+	width:75%;
+	height:75%;
+	padding:1% 2.5% 2.5% 2.5%;
+}
+
+#article .close,
+#headline .close {
+	float:right;
+	text-align:right;
+	margin-bottom:10px;
+	font-size:0.8em;
+	font-style:italic;
+}
+
+#article .content,
+#headline .content {
+	height:100%;
+	width:99%;
+	padding-right:1%;
+	overflow:auto;
+}

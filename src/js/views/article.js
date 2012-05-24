@@ -11,13 +11,38 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
+				_.bindAll(this, 'render');
+				
+				this.$el = $(this.el);
 				this.render();
 			},
 			
 			render : function() {
-				this.$el.append(this.template(/*model/collection*/));
 				
+				var that = this;
+				this.options.article.getContent(function (pageArticle) {
+					
+					
+					that.$template = $(that.template({
+						headline: pageArticle.get('title').title,
+						byline: pageArticle.get('editorial').byline,
+						body: pageArticle.get('item').body.body
+					}));
+					
+					that.$el.html(that.$template);
+					var closeButton = that.$el.find('.close');
+					
+					closeButton.bind('click', function (e) {
+						e.preventDefault();
+						that.$el.empty();
+						that.closeOverlay();
+					});
+				});
 				return this;
+			},
+			closeOverlay: function () {
+				$('body').find('#overlay').hide();
+				$('body').find('#article').hide();
 			}
 		});
 	}

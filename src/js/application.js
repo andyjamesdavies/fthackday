@@ -1,36 +1,51 @@
 define([
         'underscore',
         'backbone',
-		'views/main-view',
 		'views/data-view',
 		'views/headline',
 		'views/article'
 	],
-	function(_, Backbone, MainView, DataView, HeadlineView, ArticleView) {
+	function(_, Backbone, DataView, HeadlineView, ArticleView) {
 		"use strict";
 		
 		return {
 			initialize : function() {
-
+				_.bindAll(this, 'renderArticle', 'renderHeadline');
+				
 				window.APP_EVENTS = {};
 				_.extend(window.APP_EVENTS, Backbone.Events);
 				
-				var app = new MainView({
+				this.dataView = new DataView({
 					el : document.getElementById('content')
 				});
 				
-				var dataView = new DataView({
-					el : document.getElementById('content')
-				});
-		
-				var headline = new HeadlineView({
-					el: document.getElementById('headline'),
-					dataView: dataView
-				});
+				window.APP_EVENTS.on('pagesLoaded', this.renderArticle);
+				window.APP_EVENTS.on('pagesLoaded', this.renderHeadline);
+			},
+			renderArticle: function () {
+				if (this.tmpArticle === undefined) {
+					this.pagesCollection = this.dataView.pagesCollection; 
+					this.page = this.pagesCollection.at(0);
+					this.tmpArticle = this.page.get('pageArticles').at(0);
+				}
 				
-				var article = new ArticleView({
+				this.article = new ArticleView({
 					el : document.getElementById('article'),
+					article: this.tmpArticle
 				});
+			},
+			renderHeadline: function () {
+				if (this.tmpArticle === undefined) {
+					this.pagesCollection = this.dataView.pagesCollection; 
+					this.page = this.pagesCollection.at(0);
+					this.tmpArticle = this.page.get('pageArticles').at(0);
+				}
+				
+				this.headline = new HeadlineView({
+					el: document.getElementById('headline'),
+					article: this.tmpArticle
+				});
+				
 			}
 		};
 	}
