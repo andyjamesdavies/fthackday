@@ -11,14 +11,28 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
-				_.bindAll(this, 'render');
+				_.bindAll(this, 'render', 'closeOverlay');
 				
 				this.$el = $(this.el);
 				this.render();
 			},
 			render : function() {
-				this.$el.append(this.template({ headline: this.options.article.get('title').title }));
+				this.$template = $(this.template({ headline: this.options.article.get('title').title }));
+				
+				this.$el.html(this.$template);
+				
+				var closeButton = this.$el.find('.close');
+				var that = this;
+				closeButton.bind('click', function (e) {
+					e.preventDefault();
+					that.$el.empty();
+					that.closeOverlay();
+				});
 				return this;
+			},
+			closeOverlay: function () {
+				$('body').find('#overlay').hide();
+				$('body').find('#headline').hide();
 			}
 		});
 	}

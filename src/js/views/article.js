@@ -22,7 +22,6 @@ define([
 				var that = this;
 				this.options.article.getContent(function (pageArticle) {
 					
-					
 					that.$template = $(that.template({
 						headline: pageArticle.get('title').title,
 						byline: pageArticle.get('editorial').byline,
