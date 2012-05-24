@@ -35,8 +35,7 @@ define([
 			],
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'checkPagesLoaded');
-				
+				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'checkPagesLoaded');
 				this.render();
 			},
 			render: function () {
@@ -75,18 +74,6 @@ define([
 			pageFetchCallback: function(page) {
 				page.setupArticles();
 				this.pagesLoaded.push(true);
-			},
-			getArticleContent: function(page, n, _callback) {
-				if (USE_STUB) {
-					var article = $.parseJSON(ArticleStr);
-					var pageArticle = page.getArticleAt(n);
-					pageArticle.set({ item: article.item });
-					_callback(pageArticle);
-				} else {
-					page.getArticleAt(n).fetch({
-						success: _callback
-					});
-				}
 			},
 			checkPagesLoaded: function() {
 				this.isLoaded = false;

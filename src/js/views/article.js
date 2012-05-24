@@ -20,19 +20,29 @@ define([
 			render : function() {
 				
 				var that = this;
-				
-//				console.log(this.options);
 				this.options.article.getContent(function (pageArticle) {
-					that.$el.append(that.template({
+					
+					
+					that.$template = $(that.template({
 						headline: pageArticle.get('title').title,
 						byline: pageArticle.get('editorial').byline,
 						body: pageArticle.get('item').body.body
 					}));
+					
+					that.$el.html(that.$template);
+					var closeButton = that.$el.find('.close');
+					
+					closeButton.bind('click', function (e) {
+						e.preventDefault();
+						that.$el.empty();
+						that.closeOverlay();
+					});
 				});
-				
-//				this.$el.append(this.template({ headline: this.article.get('title').title }));
-				
 				return this;
+			},
+			closeOverlay: function () {
+				$('body').find('#overlay').hide();
+				$('body').find('#article').hide();
 			}
 		});
 	}

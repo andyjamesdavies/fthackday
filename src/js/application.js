@@ -1,12 +1,11 @@
 define([
         'underscore',
         'backbone',
-		'views/main-view',
 		'views/data-view',
 		'views/headline',
 		'views/article'
 	],
-	function(_, Backbone, MainView, DataView, HeadlineView, ArticleView) {
+	function(_, Backbone, DataView, HeadlineView, ArticleView) {
 		"use strict";
 		
 		return {
@@ -15,11 +14,6 @@ define([
 				
 				window.APP_EVENTS = {};
 				_.extend(window.APP_EVENTS, Backbone.Events);
-				
-				
-				var app = new MainView({
-					el : document.getElementById('content')
-				});
 				
 				this.dataView = new DataView({
 					el : document.getElementById('content')
