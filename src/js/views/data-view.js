@@ -38,6 +38,8 @@ define([
 			initialize : function() {
 				_.bindAll(this, 'render', 'getPagesList', 'renderGrid', 'getPageAt', 'pageFetchCallback', 'checkPagesLoaded');
 				this.render();
+				this.currentSet = 0;
+				this.count = 0;
 			},
 			render: function () {
 				this.$el = $(this.el);
@@ -125,33 +127,46 @@ define([
 				this.renderGrid();
 			},
 			renderGrid : function(){
-				
+				var that = this;
 				this.drawTiles();
 				this.colourTiles();
+				
+				setTimeout(function() { that.renderGrid() }, 5000);
 			},
 			drawTiles : function() {
+				this.$el.empty();
 				var rows = 5;
 				var cols = 10;
+				
+				var offset = rows * cols; //(50)
+				
+				if (((this.currentSet * offset) + offset) > this.allArticles.length) {
+					this.currentSet = 0;
+				}
 
-				var html = $('<table id="tiles" border="1" class="front" width="100%" height="500px" cellpadding="0" cellspacing="0">');
-
+				var html = $('<table id="tiles" class="front" width="100%" height="700px" cellpadding="0" cellspacing="0">');
+				
 				// chunk list of articles into grid size chunks
-				for (var d = 0; d < rows; d++) {
+				for (var d = 0; d <= rows; d++) {
 					var tr = $('<tr>');
-					for (var h = 0; h < cols; h++) {
-						var squareView = new SquareView( { 'd' : d, 'h' : h, 'model' : this.allArticles[d*h] } );
+					for (var h = 0; h <= cols; h++) {
+						
+						var squareView = new SquareView( { 'd' : d, 'h' : h, 'model' : this.allArticles[this.count] } );
 						tr.append(squareView.$el);
+						this.count++;
 					}
 					html.append(tr);
 				};
 				this.$el.append(html);
+				this.currentSet++;
 				window.APP_EVENTS.trigger('tilesBuilt');
 			},
 			colourTiles : function() {
 				
 				// we need to randomly colour the tiles as we make them
 				// so they look really groovy
-
+				var that = this;
+				
 				var side = $('#tiles').attr('class');
 
 				if (side === 'front') {
@@ -205,7 +220,7 @@ define([
 						var side = $('#tiles').attr('class');
 						// the timeout here is how long it takes between turning tiles
 						// the standard settings make a nice wave left-to-right
-						setTimeout(flipper(h, d, side), (h * 20) + (d * 20) + (Math.random() * 100));
+						setTimeout(flipper(h, d, side), (h * 160) + (d * 160) + (Math.random() * 100));
 					}
 				}
 				$('#tiles').attr('class', newSide);
