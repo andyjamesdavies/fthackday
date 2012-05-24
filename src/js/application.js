@@ -90,6 +90,7 @@ define([
 			thisTimeout: function () {
 				var $tableCells = $('#tiles td');
 				var that = this;
+				clearInterval(this.interval);
 				this.interval = window.setInterval(function() {
 					var rand = Math.floor(Math.random()*$tableCells.length);
 					
