@@ -7,7 +7,10 @@
 	width:100%;
 	background:#000;
 	opacity:0.5;
-	z-index:90;
+	z-index:50;
+	-webkit-transition-property:opacity, z-index, height;
+	-webkit-transition-duration: 2s, 0, 0;
+	-webkit-transition-delay:0, 2s, 0;
 }
 
 
@@ -15,8 +18,6 @@
 	height:0;
 	opacity:0;
 	z-index:0;
-	-webkit-transition-property:opacity, z-index, height;
-	-webkit-transition-duration: 2s, 0, 0;
 	-webkit-transition-delay:0, 2s, 2s;
 }
 
