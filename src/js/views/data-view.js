@@ -76,6 +76,9 @@ define([
 				page.setupArticles();
 				this.pagesLoaded.push(true);
 			},
+			getArticleAt: function(page, n) {
+				
+			},
 			getArticleContent: function(page, n) {
 				if (USE_STUB) {
 					var article = $.parseJSON(ArticleStr);
@@ -96,13 +99,13 @@ define([
 				var that = this;
 				var timeout = window.setTimeout(function() {
 					that.isLoaded = true;
-					that.options.events.trigger('pageLoadFailed');
+					window.APP_EVENTS.trigger('pageLoadFailed');
 					clearInterval(interval);
 				}, 20000);
 				
 				var interval = window.setInterval(function() {
 					if ((that.pagesLoaded.length === that.pagesCollection.length) || (that.isLoaded === true)) {
-						that.options.events.trigger('pagesLoaded');
+						window.APP_EVENTS.trigger('pagesLoaded');
 						that.isLoaded = true;
 						clearInterval(interval);
 						clearTimeout(timeout);
