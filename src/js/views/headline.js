@@ -18,6 +18,7 @@ define([
 			},
 			render : function() {
 				this.getHeadlineCallback(this.options.article);
+				this.closeOverlay();
 				return this;
 			},
 			getHeadlineCallback: function (articleModel) {
@@ -34,6 +35,8 @@ define([
 				});
 			},
 			closeOverlay: function () {
+				$('body').find('#overlay').removeClass('show');
+				$('body').find('#headline').removeClass('show');
 				$('body').find('#overlay').addClass('hidden');
 				$('body').find('#headline').addClass('hidden');
 			},
@@ -42,6 +45,8 @@ define([
 				
 				$('body').find('#overlay').removeClass('hidden');
 				$('body').find('#headline').removeClass('hidden');
+				$('body').find('#overlay').addClass('show');
+				$('body').find('#headline').addClass('show');
 			}
 		});
 	}

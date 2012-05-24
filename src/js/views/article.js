@@ -18,6 +18,7 @@ define([
 			},
 			render : function() {
 				this.options.article.getContent(this.getArticleCallback);
+				this.closeOverlay();
 				return this;
 			},
 			getArticleCallback: function (pageArticle) {
@@ -39,14 +40,21 @@ define([
 				});
 			},
 			closeOverlay: function () {
+
 				$('body').find('#overlay').addClass('hidden');
 				$('body').find('#article').addClass('hidden');
+				$('body').find('#overlay').removeClass('show');
+				$('body').find('#article').removeClass('show');
 			},
 			openOverlay: function (articleModel) {
 				articleModel.getContent(this.getArticleCallback);
 				
+
+				$('body').find('#overlay').addClass('show');
+				$('body').find('#article').addClass('show');
 				$('body').find('#overlay').removeClass('hidden');
 				$('body').find('#article').removeClass('hidden');
+				
 			}
 		});
 	}

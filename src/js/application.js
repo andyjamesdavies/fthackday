@@ -37,6 +37,13 @@ define([
 					el : document.getElementById('article'),
 					article: this.tmpArticle
 				});
+				
+				var that = this;
+				
+				$('body').find('#showArticle').bind('click', function(e) {
+					e.preventDefault();
+					that.article.openOverlay(that.tmpArticle);
+				});
 			},
 			renderHeadline: function () {
 				if (this.tmpArticle === undefined) {
@@ -49,6 +56,12 @@ define([
 					el: document.getElementById('headline'),
 					article: this.tmpArticle
 				});	
+				
+				var that = this;
+				$('body').find('#showHeadline').bind('click', function(e) {
+					e.preventDefault();
+					that.headline.openOverlay(that.tmpArticle);
+				});
 			},
 			setHeight: function () {
 				$('body').height($(window).innerHeight());
