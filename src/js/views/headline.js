@@ -24,7 +24,7 @@ define([
 //				this.model = this.options.dataView.getArticleAt()
 				
 				
-				this.$el.append(this.template(/*model/collection*/));
+				//this.$el.append(this.template(/*model/collection*/));
 				
 				return this;
 			}

@@ -35,7 +35,7 @@ define([
 			],
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'articleFetchCallback', 'checkPagesLoaded');
+				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'renderGrid', 'pageFetchCallback', 'getArticleContent', 'articleFetchCallback', 'checkPagesLoaded');
 				
 				this.render();
 			},
@@ -110,8 +110,123 @@ define([
 						clearInterval(interval);
 						clearTimeout(timeout);
 						$(that.progressIndicator).remove();
+						that.sortArticles();
 					}
 				}, 100);
+			},
+			sortArticles : function() {
+				
+				var allArticles = [];
+				
+				// inspect pages collection and get each page
+				_.each( this.pagesCollection.models, function( page ){
+					
+					// for each page, get its article collection
+					var pg = page.get('pageArticles');
+					
+					// some pages don't have lists of 'articles', e.g. twitter, audio slideshows
+					if ( pg ) {
+						//for each article collection, get all the articles out and add to our big array
+						_.each( pg.models, function(article){
+							allArticles.push(article);
+						})
+					}
+				});
+				
+				// how many article do we have?
+				console.log(allArticles.length);
+				
+				// what subject is each article?
+				_.each(allArticles, function(article){
+					console.log(article.get('metadata').primarySection.term.name);
+				});
+				this.renderGrid();
+			},
+			renderGrid : function(){
+				
+				this.drawTiles();
+				this.colourTiles();
+			},
+			drawTiles : function() {
+				var rows = 5;
+				var cols = 10;
+
+				var html = '<table id="tiles" border="1" class="front" width="100%" height="500px" cellpadding="0" cellspacing="0">';
+				html += '</tr>';
+
+				for (var d = 0; d < rows; d++) {
+					for (var h = 0; h < cols; h++) {
+						html += '<td id="d' + d + 'h' + h + '" class="d' + d + ' h' + h + '"><div class="tile"><div class="face front"></div><div class="face back"></div></div></td>';
+					}
+					html += '</tr>';
+				}
+				html += '</table>';
+				this.$el.append(html);
+			},
+			colourTiles : function() {
+				
+				// we need to randomly colour the tiles as we make them
+				// so they look really groovy
+				console.log('colour tiles');
+
+				var side = $('#tiles').attr('class');
+
+				if (side === 'front') {
+					side = 'back';
+				} else {
+					side = 'front';
+				}
+
+				// change the colur of the div to be random fro mour palette
+				var buckets = 15;
+				for ( var d = 0; d < 5; d++) {
+					for ( var h = 0; h < 10; h++) {
+						var sel = '#d' + d + 'h' + h + ' .tile .' + side;
+						$(sel).css('background', this.colourPalette[Math.floor(Math.random()*15)]);
+					}
+				}
+				
+				// turn the tiles
+				this.flipTiles();
+			},
+			flipTiles : function(){
+				
+				var rows = 5;
+				var cols = 10;
+				console.log('flip tiles');
+				
+				var oldSide = $('#tiles').attr('class');
+				var newSide = '';
+
+				if (oldSide == 'front') {
+					newSide = 'back';
+				} else {
+					newSide = 'front';
+				}
+
+				var flipper = function(h, d, side) {
+					return function() {
+						var sel = '#d' + d + 'h' + h + ' .tile';
+						var rotateY = 'rotateY(180deg)';
+
+						if (side === 'back') {
+							rotateY = 'rotateY(0deg)';	
+						}
+						
+						$(sel).css('-webkit-transform', rotateY);
+
+					};
+				};
+
+				for (var h = 0; h < cols; h++) {
+					for (var d = 0; d < rows; d++) {
+						var side = $('#tiles').attr('class');
+						// the timeout here is how long it takes between turning tiles
+						// the standard settings make a nice wave left-to-right
+						setTimeout(flipper(h, d, side), (h * 20) + (d * 20) + (Math.random() * 100));
+					}
+				}
+				$('#tiles').attr('class', newSide);
 			}
 		});
 	}
