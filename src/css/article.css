@@ -26,6 +26,7 @@
 	position:absolute;
 	background:#FFF1E0;
 	-webkit-border-radius: 15px;
+	overflow:hidden;
 }
 
 #article.hidden,
@@ -42,7 +43,6 @@
 	-webkit-transition-duration:2s, 2s, 2s, 2s, 2s, 2s, 0;
 	-webkit-transition-delay:0, 0, 0, 0, 0, 0, 2s;
 }
-
 
 #article.show,
 #headline.show {
@@ -88,4 +88,3 @@
 	padding-right:1%;
 	overflow:auto;
 }
-
