@@ -147,9 +147,9 @@ define([
 				var html = $('<table id="tiles" class="front" width="100%" height="700px" cellpadding="0" cellspacing="0">');
 				
 				// chunk list of articles into grid size chunks
-				for (var d = 0; d <= rows; d++) {
+				for (var d = 0; d < rows; d++) {
 					var tr = $('<tr>');
-					for (var h = 0; h <= cols; h++) {
+					for (var h = 0; h < cols; h++) {
 						
 						var squareView = new SquareView( { 'd' : d, 'h' : h, 'model' : this.allArticles[this.count] } );
 						tr.append(squareView.$el);
