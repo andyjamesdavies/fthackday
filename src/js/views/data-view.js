@@ -118,12 +118,12 @@ define([
 				});
 				
 				// how many article do we have?
-				console.log(this.allArticles.length);
+//				console.log(this.allArticles.length);
 				
 				// what subject is each article?
-				_.each(this.allArticles, function(article){
-					console.log(article.get('metadata').primarySection.term.name);
-				});
+//				_.each(this.allArticles, function(article){
+//					console.log(article.get('metadata').primarySection.term.name);
+//				});
 				this.renderGrid();
 			},
 			renderGrid : function(){
@@ -131,7 +131,7 @@ define([
 				this.drawTiles();
 				this.colourTiles();
 				
-				setTimeout(function() { that.renderGrid() }, 240000);
+				setTimeout(function() { that.renderGrid() }, 40000);
 			},
 			drawTiles : function() {
 				this.$el.empty();
@@ -159,6 +159,7 @@ define([
 				};
 				this.$el.append(html);
 				this.currentSet++;
+				window.APP_EVENTS.trigger('tilesBuilt');
 			},
 			colourTiles : function() {
 				
