@@ -14,6 +14,26 @@ define([
 		
 		return Backbone.View.extend({
 			
+			colourPalette : [
+				'#e0bbe8',
+				'#ff8079',
+				'#5154a6',
+				'#4883e8',
+				'#37adff',
+
+				'#91a631',
+				'#d2c97c',
+				'#dcc498',
+				'#c8917d',
+				'#d07641',
+
+				'#cf4732',
+				'#a6451b',
+				'#fa5965',
+				'#7a4f3d',
+				'#ac765e'
+			],
+			
 			initialize : function() {
 				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'checkPagesLoaded');
 				
@@ -21,6 +41,10 @@ define([
 			},
 			render: function () {
 				this.$el = $(this.el);
+				
+				// load progress indicator here
+				this.progressIndicator = $('<div id="progress">loading...</p>');
+				this.$el.append(this.progressIndicator);
 				
 				this.getPagesList();
 				
@@ -79,7 +103,8 @@ define([
 						window.APP_EVENTS.trigger('pagesLoaded');
 						that.isLoaded = true;
 						clearInterval(interval);
-						clearTimeout(timeout)
+						clearTimeout(timeout);
+						$(that.progressIndicator).remove();
 					}
 				}, 100);
 			}
