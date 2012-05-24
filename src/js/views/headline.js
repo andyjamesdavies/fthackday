@@ -11,7 +11,7 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'getHeadlineCallback', 'closeOverlay', 'openOverlay');
+				_.bindAll(this, 'render', 'getHeadlineCallback', 'closeOverlay', 'openOverlay', 'showArticle');
 				
 				this.$el = $(this.el);
 				this.render();
@@ -59,6 +59,18 @@ define([
 				$('body').find('#headline').removeClass('hidden');
 				$('body').find('#overlay').addClass('show');
 				$('body').find('#headline').addClass('show');
+				
+				this.showArticle(articleModel);
+			},
+			showArticle: function (articleModel) {
+				var that = this;
+				console.log(this.$el);
+				this.$el.find('.content').bind('click', function (e) {
+					e.preventDefault();
+					
+					that.closeOverlay();
+					window.ARTICLE.openOverlay(articleModel);
+				});
 			}
 		});
 	}
