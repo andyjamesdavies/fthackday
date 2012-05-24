@@ -17,6 +17,8 @@ define([
 				
 				window.APP_EVENTS = {};
 				_.extend(window.APP_EVENTS, Backbone.Events);
+				window.ARTICLE = null;
+				window.HEADLINE = null;
 				
 				this.dataView = new DataView({
 					el : document.getElementById('content')
@@ -33,7 +35,7 @@ define([
 					this.tmpArticle = this.page.get('pageArticles').at(0);
 				}
 				
-				this.article = new ArticleView({
+				window.ARTICLE = new ArticleView({
 					el : document.getElementById('article'),
 					article: this.tmpArticle
 				});
@@ -42,7 +44,7 @@ define([
 				
 				$('body').find('#showArticle').bind('click', function(e) {
 					e.preventDefault();
-					that.article.openOverlay(that.tmpArticle);
+					window.ARTICLE.openOverlay(that.tmpArticle);
 				});
 			},
 			renderHeadline: function () {
@@ -52,7 +54,7 @@ define([
 					this.tmpArticle = this.page.get('pageArticles').at(0);
 				}
 				
-				this.headline = new HeadlineView({
+				window.HEADLINE = new HeadlineView({
 					el: document.getElementById('headline'),
 					article: this.tmpArticle
 				});	
@@ -60,7 +62,7 @@ define([
 				var that = this;
 				$('body').find('#showHeadline').bind('click', function(e) {
 					e.preventDefault();
-					that.headline.openOverlay(that.tmpArticle);
+					window.HEADLINE.openOverlay(that.tmpArticle);
 				});
 			},
 			setHeight: function () {

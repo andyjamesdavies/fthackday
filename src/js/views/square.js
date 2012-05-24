@@ -12,7 +12,8 @@ define([
 				'click' : 'popup'
 			},
 			popup : function(){
-				alert(this.model.get('metadata').primarySection.term.name);
+//				window.ARTICLE.openOverlay(this.model);
+				window.HEADLINE.openOverlay(this.model);
 			},
 			initialize : function() {
 				_.bindAll(this, 'render');

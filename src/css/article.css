@@ -25,6 +25,7 @@
 	display:block;
 	position:absolute;
 	background:#FFF1E0;
+	-webkit-border-radius: 15px;
 }
 
 #article.hidden,
@@ -57,7 +58,13 @@
 }
 
 #headline.show {
-	height:25%;
+	height:10%;
+	min-height:50px;
+	text-align:center;
+}
+
+#headline.show.hasImage {
+	height:75%;
 }
 
 #headline.hidden .close,

@@ -22,7 +22,18 @@ define([
 				return this;
 			},
 			getHeadlineCallback: function (articleModel) {
-				this.$template = $(this.template({ headline: articleModel.get('title').title }));
+				
+				var image = '';
+				if (articleModel.get('images').length > 0) {
+					var img = articleModel.get('images')[0];
+					image = '<img src="' + img.url + '" width="100%" />';
+					this.$el.addClass('hasImage');
+				}
+				
+				this.$template = $(this.template({ 
+					headline: articleModel.get('title').title, 
+					image: image
+				}));
 				
 				this.$el.html(this.$template);
 				
@@ -35,6 +46,7 @@ define([
 				});
 			},
 			closeOverlay: function () {
+				this.$el.removeClass('hasImage');
 				$('body').find('#overlay').removeClass('show');
 				$('body').find('#headline').removeClass('show');
 				$('body').find('#overlay').addClass('hidden');
