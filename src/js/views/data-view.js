@@ -5,9 +5,10 @@ define([
 		'collections/pages',
 		'text!stubdata/pages.json',
 		'text!stubdata/pageArticles-example.json',
-		'text!stubdata/article-example.json'
+		'text!stubdata/article-example.json',
+		'views/square'
 	],
-	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr) {
+	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr, SquareView) {
 		"use strict";
 
 		var USE_STUB = true;
@@ -86,7 +87,6 @@ define([
 				
 				var interval = window.setInterval(function() {
 					if ((that.pagesLoaded.length === that.pagesCollection.length) || (that.isLoaded === true)) {
-						console.log('pagesLoaded');
 						window.APP_EVENTS.trigger('pagesLoaded');
 						that.isLoaded = true;
 						clearInterval(interval);
@@ -97,8 +97,8 @@ define([
 				}, 100);
 			},
 			sortArticles : function() {
-				
-				var allArticles = [];
+				var that = this;
+				this.allArticles = [];
 				
 				// inspect pages collection and get each page
 				_.each( this.pagesCollection.models, function( page ){
@@ -110,16 +110,16 @@ define([
 					if ( pg ) {
 						//for each article collection, get all the articles out and add to our big array
 						_.each( pg.models, function(article){
-							allArticles.push(article);
+							that.allArticles.push(article);
 						})
 					}
 				});
 				
 				// how many article do we have?
-				console.log(allArticles.length);
+				console.log(this.allArticles.length);
 				
 				// what subject is each article?
-				_.each(allArticles, function(article){
+				_.each(this.allArticles, function(article){
 					console.log(article.get('metadata').primarySection.term.name);
 				});
 				this.renderGrid();
@@ -133,23 +133,23 @@ define([
 				var rows = 5;
 				var cols = 10;
 
-				var html = '<table id="tiles" border="1" class="front" width="100%" height="500px" cellpadding="0" cellspacing="0">';
-				html += '</tr>';
+				var html = $('<table id="tiles" border="1" class="front" width="100%" height="500px" cellpadding="0" cellspacing="0">');
 
+				// chunk list of articles into grid size chunks
 				for (var d = 0; d < rows; d++) {
+					var tr = $('<tr>');
 					for (var h = 0; h < cols; h++) {
-						html += '<td id="d' + d + 'h' + h + '" class="d' + d + ' h' + h + '"><div class="tile"><div class="face front"></div><div class="face back"></div></div></td>';
+						var squareView = new SquareView( { 'd' : d, 'h' : h, 'model' : this.allArticles[d*h] } );
+						tr.append(squareView.$el);
 					}
-					html += '</tr>';
-				}
-				html += '</table>';
+					html.append(tr);
+				};
 				this.$el.append(html);
 			},
 			colourTiles : function() {
 				
 				// we need to randomly colour the tiles as we make them
 				// so they look really groovy
-				console.log('colour tiles');
 
 				var side = $('#tiles').attr('class');
 
@@ -175,7 +175,6 @@ define([
 				
 				var rows = 5;
 				var cols = 10;
-				console.log('flip tiles');
 				
 				var oldSide = $('#tiles').attr('class');
 				var newSide = '';
