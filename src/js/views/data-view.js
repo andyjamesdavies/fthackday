@@ -10,7 +10,7 @@ define([
 	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr) {
 		"use strict";
 
-		var USE_STUB = true;
+		var USE_STUB = false;
 		
 		return Backbone.View.extend({
 			
@@ -67,15 +67,23 @@ define([
 				
 			},
 			checkPagesLoaded: function() {
-				var isLoaded = false;
-				while (!isLoaded) {
-					console.log('pending');
-					if (this.pagesLoaded.length === this.pagesCollection.length) {
-						console.log('pagesLoaded');
-						this.options.events.trigger('pagesLoaded');
-						isLoaded = true;
+				this.isLoaded = false;
+				
+				var that = this;
+				var timeout = window.setTimeout(function() {
+					that.isLoaded = true;
+					that.options.events.trigger('pageLoadFailed');
+					clearInterval(interval);
+				}, 20000);
+				
+				var interval = window.setInterval(function() {
+					if ((that.pagesLoaded.length === that.pagesCollection.length) || (that.isLoaded === true)) {
+						that.options.events.trigger('pagesLoaded');
+						that.isLoaded = true;
+						clearInterval(interval);
+						clearTimeout(timeout)
 					}
-				}
+				}, 100);
 			}
 		});
 	}
