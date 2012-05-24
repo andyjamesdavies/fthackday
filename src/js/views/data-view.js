@@ -10,12 +10,12 @@ define([
 	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr) {
 		"use strict";
 
-		var USE_STUB = false;
+		var USE_STUB = true;
 		
 		return Backbone.View.extend({
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'articleFetchCallback', 'checkPagesLoaded');
+				_.bindAll(this, 'render', 'getPagesList', 'getPageAt', 'pageFetchCallback', 'getArticleContent', 'checkPagesLoaded');
 				
 				this.render();
 			},
@@ -52,22 +52,17 @@ define([
 				page.setupArticles();
 				this.pagesLoaded.push(true);
 			},
-			getArticleAt: function(page, n) {
-				
-			},
-			getArticleContent: function(page, n) {
+			getArticleContent: function(page, n, _callback) {
 				if (USE_STUB) {
 					var article = $.parseJSON(ArticleStr);
-					page.getArticleAt(n).add(article);
-					this.articleFetchCallback();
+					var pageArticle = page.getArticleAt(n);
+					pageArticle.set({ item: article.item });
+					_callback(pageArticle);
 				} else {
 					page.getArticleAt(n).fetch({
-						success: this.articleFetchCallback
+						success: _callback
 					});
 				}
-			},
-			articleFetchCallback: function(article) {
-				
 			},
 			checkPagesLoaded: function() {
 				this.isLoaded = false;
@@ -76,11 +71,11 @@ define([
 				var timeout = window.setTimeout(function() {
 					that.isLoaded = true;
 					window.APP_EVENTS.trigger('pageLoadFailed');
-					clearInterval(interval);
-				}, 20000);
+				}, 30000);
 				
 				var interval = window.setInterval(function() {
 					if ((that.pagesLoaded.length === that.pagesCollection.length) || (that.isLoaded === true)) {
+						console.log('pagesLoaded');
 						window.APP_EVENTS.trigger('pagesLoaded');
 						that.isLoaded = true;
 						clearInterval(interval);

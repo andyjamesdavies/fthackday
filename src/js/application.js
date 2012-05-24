@@ -11,26 +11,47 @@ define([
 		
 		return {
 			initialize : function() {
-
+				_.bindAll(this, 'renderArticle', 'renderHeadline');
+				
 				window.APP_EVENTS = {};
 				_.extend(window.APP_EVENTS, Backbone.Events);
+				
 				
 				var app = new MainView({
 					el : document.getElementById('content')
 				});
 				
-				var dataView = new DataView({
+				this.dataView = new DataView({
 					el : document.getElementById('content')
 				});
-		
-				var headline = new HeadlineView({
+				
+				window.APP_EVENTS.on('pagesLoaded', this.renderArticle);
+				window.APP_EVENTS.on('pagesLoaded', this.renderHeadline);
+			},
+			renderArticle: function () {
+				if (this.tmpArticle === undefined) {
+					this.pagesCollection = this.dataView.pagesCollection; 
+					this.page = this.pagesCollection.at(0);
+					this.tmpArticle = this.page.get('pageArticles').at(0);
+				}
+				
+				this.article = new ArticleView({
+					el : document.getElementById('article'),
+					article: this.tmpArticle
+				});
+			},
+			renderHeadline: function () {
+				if (this.tmpArticle === undefined) {
+					this.pagesCollection = this.dataView.pagesCollection; 
+					this.page = this.pagesCollection.at(0);
+					this.tmpArticle = this.page.get('pageArticles').at(0);
+				}
+				
+				this.headline = new HeadlineView({
 					el: document.getElementById('headline'),
-					dataView: dataView
+					article: this.tmpArticle
 				});
 				
-				var article = new ArticleView({
-					el : document.getElementById('article'),
-				});
 			}
 		};
 	}

@@ -11,21 +11,13 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
+				_.bindAll(this, 'render');
 				
-				window.APP_EVENTS.on('pagesLoaded', this.render);
+				this.$el = $(this.el);
+				this.render();
 			},
-			
 			render : function() {
-				
-				console.log('TEST');
-				
-//				var page = this.options.dataView.
-				
-//				this.model = this.options.dataView.getArticleAt()
-				
-				
-				this.$el.append(this.template(/*model/collection*/));
-				
+				this.$el.append(this.template({ headline: this.options.article.get('title').title }));
 				return this;
 			}
 		});
