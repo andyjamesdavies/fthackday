@@ -11,7 +11,7 @@ define([
 			template : _.template(TemplateStr),
 			
 			initialize : function() {
-				_.bindAll(this, 'render', 'getHeadlineCallback', 'closeOverlay', 'openOverlay');
+				_.bindAll(this, 'render', 'getHeadlineCallback', 'closeOverlay', 'openOverlay', 'showArticle');
 				
 				this.$el = $(this.el);
 				this.render();
@@ -22,7 +22,18 @@ define([
 				return this;
 			},
 			getHeadlineCallback: function (articleModel) {
-				this.$template = $(this.template({ headline: articleModel.get('title').title }));
+				
+				var image = '';
+				if (articleModel.get('images').length > 0) {
+					var img = articleModel.get('images')[0];
+					image = '<img src="' + img.url + '" width="100%" />';
+					this.$el.addClass('hasImage');
+				}
+				
+				this.$template = $(this.template({ 
+					headline: articleModel.get('title').title, 
+					image: image
+				}));
 				
 				this.$el.html(this.$template);
 				
@@ -35,6 +46,7 @@ define([
 				});
 			},
 			closeOverlay: function () {
+				this.$el.removeClass('hasImage');
 				$('body').find('#overlay').removeClass('show');
 				$('body').find('#headline').removeClass('show');
 				$('body').find('#overlay').addClass('hidden');
@@ -47,6 +59,18 @@ define([
 				$('body').find('#headline').removeClass('hidden');
 				$('body').find('#overlay').addClass('show');
 				$('body').find('#headline').addClass('show');
+				
+				this.showArticle(articleModel);
+			},
+			showArticle: function (articleModel) {
+				var that = this;
+				console.log(this.$el);
+				this.$el.find('.content').bind('click', function (e) {
+					e.preventDefault();
+					
+					that.closeOverlay();
+					window.ARTICLE.openOverlay(articleModel);
+				});
 			}
 		});
 	}

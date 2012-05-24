@@ -11,7 +11,7 @@ define([
 	function($, _, Backbone, PagesCollection, PagesStr, pageArticlesStr, ArticleStr, SquareView) {
 		"use strict";
 
-		var USE_STUB = true;
+		var USE_STUB = false;
 		
 		return Backbone.View.extend({
 			

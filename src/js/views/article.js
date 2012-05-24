@@ -49,7 +49,6 @@ define([
 			openOverlay: function (articleModel) {
 				articleModel.getContent(this.getArticleCallback);
 				
-
 				$('body').find('#overlay').addClass('show');
 				$('body').find('#article').addClass('show');
 				$('body').find('#overlay').removeClass('hidden');
