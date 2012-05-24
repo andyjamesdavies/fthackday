@@ -131,7 +131,7 @@ define([
 				this.drawTiles();
 				this.colourTiles();
 				
-				setTimeout(function() { that.renderGrid() }, 5000);
+				setTimeout(function() { that.renderGrid() }, 240000);
 			},
 			drawTiles : function() {
 				this.$el.empty();
