@@ -12,7 +12,7 @@ define([
 				'click' : 'popup'
 			},
 			popup : function(){
-				alert('popup');
+				alert(this.model.get('metadata').primarySection.term.name);
 			},
 			initialize : function() {
 				_.bindAll(this, 'render');
