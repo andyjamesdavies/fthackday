@@ -14,9 +14,11 @@
 	});
 	
 	require([
+	        'underscore',
+	        'backbone',
 			'application'
 		],
-		function(App) {
+		function(_, Backbone, App) {
 			App.initialize();
 		}
 	);
