@@ -8,7 +8,7 @@ define([
 		"use strict";
 		
 		var API_KEY = '8f4a8b83f48c4eecf9b6b64c90a4451b'
-		var USE_STUB = false;
+		var USE_STUB = true;
 		
 		return Backbone.Model.extend({
 			idAttribute: 'modelId',

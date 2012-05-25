@@ -82,10 +82,13 @@
 	font-style:italic;
 }
 
-#article .content,
-#headline .content {
+#article .content {
 	height:94%;
 	width:99%;
 	padding-right:1%;
 	overflow:auto;
+}
+
+#headline .content {
+	overflow:hidden;
 }
